@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho de Faculdade - Vercel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        button {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover { background-color: #333; }
+        #resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eef;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Meu Primeiro Projeto Serverless</h2>
+        <p>Clique no botão abaixo para fazer uma requisição HTTP para o nosso Backend na nuvem.</p>
+        <button onclick="chamarApi()">Testar API</button>
+        
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        async function chamarApi() {
+            const divResultado = document.getElementById('resultado');
+            divResultado.style.display = 'block';
+            divResultado.innerHTML = '<i>Processando na nuvem...</i>';
+
+            try {
+                // Faz a requisição para a pasta /api que criamos
+                const resposta = await fetch('/api/saudacao');
+                const dados = await resposta.json();
+
+                // Mostra o resultado na tela
+                divResultado.innerHTML = `
+                    <strong>Status:</strong> Sucesso!<br>
+                    <strong>Mensagem:</strong> ${dados.mensagem}<br>
+                    <small>Data do servidor: ${dados.data}</small>
+                `;
+            } catch (erro) {
+                divResultado.innerHTML = '<span style="color:red;">Erro ao conectar com a API.</span>';
+            }
+        }
+    </script>
+
+</body>
+</html>
